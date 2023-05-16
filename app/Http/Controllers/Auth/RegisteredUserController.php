@@ -48,7 +48,7 @@ class RegisteredUserController extends Controller
 
         $input = $request->code;
 
-        $pattern = "git init";
+        $pattern = "/\d{0,4}\(\d{0,4}\)/";
 
         $isSubstringPresent = preg_match($pattern, $input);
 
