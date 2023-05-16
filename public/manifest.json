@@ -1,0 +1,31 @@
+{
+    "name": "INFriends",
+    "short_name": "INFriends",
+    "start_url": "/index.php",
+    "background_color": "#fff",
+    "description": "INFriends",
+    "display" : "standalone",
+    "orientation" : "portrait",
+    "lang": "ru",
+    "theme_color": "#fff",
+    "icons": [
+        {
+        "src": "/favicons/196x196.png",
+        "type": "image/png",
+        "sizes": "192x192",
+            "purpose": "android"
+        },
+        {
+            "src": "/favicons/512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "/favicons/512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any"
+        }
+    ]
+}
