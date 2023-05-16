@@ -33,7 +33,7 @@ class DashboardController extends Controller
             return view('dashboard')->with(compact('tracks', 'count', 'messages', 'config'));
         }elseif (Auth::user()->is_active === 1 && Auth::user()->type === 'stock'){
             $config = Configuration::query()->select('address', 'title_text', 'address_two')->first();
-            $qr = QrCodes::query()->select()->where('id', 1)->first();
+            $qr = QrCodes::query()->select()->where('id', 2)->first();
             $count = TrackList::query()->whereDate('created_At', Carbon::today())->count();
             return view('stock')->with(compact('count', 'config', 'qr'));
         }elseif (Auth::user()->is_active === 1 && Auth::user()->type === 'almatyin'){
