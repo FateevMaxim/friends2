@@ -114,10 +114,30 @@
                                 /* отключение стандартной отправки формы */
                                 event.preventDefault();
 
-                                     $("#track_codes_list").html('');
-                                     $("#clear_track_codes").html('');
-                                        number = 1;
-                                     $("#count").text('0');
+                                $("#track_codes_list").html('');
+                                $("#clear_track_codes").html('');
+                                number = 1;
+                                $("#count").text('0');
+
+                            });
+
+
+                            $(document).ready(function(){
+                                city = $("#city").val();
+                                if (city === 'Выберите город'){
+                                    $("#sendTracks").prop("disabled",true).css("cursor","not-allowed");
+                                }
+                            });
+
+                            /* прикрепить событие submit к форме */
+                            $("#city").change(function(event) {
+
+                                city = $("#city").val();
+                                if (city === 'Выберите город'){
+                                    $("#sendTracks").prop("disabled",true).css("cursor","not-allowed");
+                                }else{
+                                    $("#sendTracks").prop("disabled",false).css("cursor","pointer");
+                                }
 
                             });
 

@@ -175,7 +175,7 @@
                                     </li>
                                     <li class="flex items-center">
                                         <svg class="w-6 h-6 mr-1.5 @if($track->to_client == null) text-gray-200 @else text-green-400 @endif flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                                        <p><small>@if($track->status === 'Отправлено в Ваш город') Отправлено в Ваш город @else Получено клиентом @endif</small><br />
+                                        <p><small>@if($track->city != '') Отправлено в город - {{ $track->city }} @else Получено клиентом @endif</small><br />
                                             <span>{{$track->to_client}}</span></p>
                                     </li>
                                     <li class="grid items-center">
@@ -186,7 +186,7 @@
                                                 <span>{{$track->client_accept}}</span></p>
                                         </div>
 
-                                        @if($track->to_client && $track->client_accept == null)
+                                        @if($track->to_client && $track->client_accept == null && $track->city == null )
                                             <div class="mt-4">
                                                 <form method="POST" action="{{ route('accept-product', ['track_code' => $track->track_code]) }}">
                                                     <x-classic-button class="w-9/12 mx-auto w-full justify-center inline-flex">
@@ -194,7 +194,14 @@
                                                     </x-classic-button>
                                                 </form>
                                             </div>
-
+                                        @elseif($track->city && $track->to_client_city && $track->client_accept == null)
+                                            <div class="mt-4">
+                                                <form method="POST" action="{{ route('accept-product', ['track_code' => $track->track_code]) }}">
+                                                    <x-classic-button class="w-9/12 mx-auto w-full justify-center inline-flex">
+                                                        {{ __('Принять товар') }}
+                                                    </x-classic-button>
+                                                </form>
+                                            </div>
                                         @endif
                                     </li>
 
