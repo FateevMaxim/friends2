@@ -67,7 +67,10 @@
                             <button onclick="install()" class="px-4 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-200 rounded-lg focus:outline-none hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200">{{ __('Android') }}</button>
                         </div>
                     </div>--}}
-
+                    <hr class="h-px mt-4 bg-gray-200 border-0">
+                    @if(\Illuminate\Support\Facades\Auth::user()->type === 'othercity')
+                        <a href="{{ route('track_report_page') }}"  class="grid grid-col-1 px-4 mt-6 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-200 rounded-lg focus:outline-none hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200">Отчёт по трек кодам</a>
+                    @endif
 
                     <hr class="h-px my-8 bg-gray-200 border-0">
                     <div class="grid grid-cols-2 mt-4 gap-4">

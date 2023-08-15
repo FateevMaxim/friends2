@@ -49,7 +49,7 @@
         max-height: 440px;
         overflow: auto;
     }
-    . {
+    .min_height {
         min-height: 500px;
     }
 }

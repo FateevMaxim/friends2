@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\UsersExport;
 use App\Imports\TracksImport;
 use App\Models\ClientTrackList;
 use App\Models\Configuration;
@@ -69,23 +70,36 @@ class ProductController extends Controller
 
     public function almatyOut(Request $request)
     {
+        if($request["city"] != 'Выберите город' && isset($request["city"])){
+            $city = $request["city"];
+        }else{
+            $city = null;
+        }
+
+        if($request["to_city"] != null) {
+            $city = $request["to_city"];
+        }
         $status = "Выдано клиенту";
         if ($request["send"] === 'true'){
             $status = "Отправлено в Ваш город";
         }
         $array =  preg_split("/\s+/", $request["track_codes"]);
-
+        $client_field = 'to_client';
+        if (Auth::user()->type != 'othercity' && Auth::user()->type != 'almatyout'){
+            $client_field = 'to_client_city';
+        }
         $wordsFromFile = [];
         foreach ($array as $ar){
             $wordsFromFile[] = [
                 'track_code' => $ar,
-                'to_client' => date(now()),
+                $client_field => date(now()),
                 'status' => $status,
                 'reg_client' => 1,
+                'city' => $city,
                 'updated_at' => date(now()),
             ];
         }
-        TrackList::upsert($wordsFromFile, ['track_code', 'to_client', 'status', 'reg_client', 'updated_at']);
+        TrackList::upsert($wordsFromFile, ['track_code', $client_field, 'status', 'city', 'reg_client', 'updated_at']);
         return response('success');
 
     }
@@ -180,6 +194,11 @@ class ProductController extends Controller
     {
         Excel::import(new TracksImport($request['date']), $request->file('file')->store('temp'));
         return back()->with('message', 'Трек коды успешно добавлены');
+    }
+
+    public function fileExport(Request $request)
+    {
+        return Excel::download(new UsersExport($request['date'], $request['city']), 'users.xlsx');;
     }
 
     public function result ()

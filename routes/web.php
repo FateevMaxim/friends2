@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,6 +36,7 @@ Route::get('/register-me', function () {
 
 Route::middleware('auth')->group(function () {
     Route::post('/file-import', [ProductController::class, 'fileImport'])->name('file-import');
+    Route::get('/file-export', [ProductController::class, 'fileExport'])->name('file-export');
     Route::get('/archive', [DashboardController::class, 'archive'])->name('archive');
     Route::post('/china-product', [ProductController::class, 'addChina'])->name('china-product');
     Route::post('/almatyin-product', [ProductController::class, 'almatyIn'])->name('almatyin-product');
@@ -54,7 +56,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/message-delete', [ProfileController::class, 'deleteMessage'])->name('message-delete');
     Route::post('/message-add', [ProfileController::class, 'addMessage'])->name('message-add');
 
-
+    Route::get('/track_report_page', [ReportController::class, 'getTrackReportPage'])->name('track_report_page');
+    Route::post('/track_report', [ReportController::class, 'getTrackReport'])->name('track_report');
 
     Route::get('/result', [ProductController::class, 'result'])->name('result');
 

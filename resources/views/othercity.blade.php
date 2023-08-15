@@ -25,25 +25,32 @@
 
                     </div>
 
-                    <div class="grid grid-cols-1 p-4 min_height round_border relative">
+                    <div class="flex flex-col w-full min_height mx-auto p-4 round_border relative">
                         <div class="grid mx-auto">
                             <div id="qrcode"></div>
-                            <b class="mx-auto" style="margin-top: -45px;">Upload Data</b>
                         </div>
-                        <div id="track">
+                        <div class="grid mx-auto pt-4">
+                            <b>Upload Data</b>
+                        </div>
+                        <div class="grid mt-8" id="track">
                             <span>Счётчик</span>
 
                             <div x-data="{ count: 0 }">
                                 <h1 id="count"></h1>
                             </div>
                         </div>
-                        <div class="absolute w-full bottom-0 p-4">
+                        <div class="absolute w-full bottom-0 p-4" style="padding-right: 40px;">
                             <form method="POST" action="{{ route('almatyout-product') }}" id="searchForm">
                                 <div>
                                     <div>
                                         @csrf
-
-                                        <x-primary-button class="mx-auto w-full">
+                                        <select id="city" name="city" class="block w-full p-2 mb-6 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" required>
+                                            <option>Выберите город</option>
+                                            @foreach($cities as $city)
+                                                <option value="{{ $city->title }}">{{ $city->title }}</option>
+                                            @endforeach
+                                        </select>
+                                        <x-primary-button class="mx-auto w-full" id="sendTracks">
                                             {{ __('Отправить') }}
                                         </x-primary-button>
                                         <x-secondary-button class="mx-auto mt-4 w-full" id="clear">
@@ -84,7 +91,6 @@
                                 }
                             });
 
-                            /* прикрепить событие submit к форме */
                             $("#searchForm").submit(function(event) {
                                 /* отключение стандартной отправки формы */
                                 event.preventDefault();
@@ -92,13 +98,14 @@
                                 /* собираем данные с элементов страницы: */
                                 var $form = $( this ),
                                     track_codes = $("#clear_track_codes").html();
-                                    url = $form.attr( 'action' );
+                                city = $("#city").val();
+                                url = $form.attr( 'action' );
 
                                 /* отправляем данные методом POST */
-                                $.post( url, { track_codes: track_codes, send: true } )
-                                 .done(function( data ) {
-                                     location.reload();
-                                 });
+                                $.post( url, { track_codes: track_codes, city: city, send: true } )
+                                    .done(function( data ) {
+                                        location.reload();
+                                    });
 
                             });
 
